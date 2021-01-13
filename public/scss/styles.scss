@@ -1,0 +1,9 @@
+@import '_variables';
+
+*{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $lightBlue;
+    font-size: 36px;
+}
