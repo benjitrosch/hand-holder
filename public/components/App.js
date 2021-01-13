@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import User from './User.js';
+import Mailbox from './Mailbox.js';
+import Hand from './Hand.js';
 
 class App extends Component {
     constructor(props) {
       super(props);
+
       this.connect = this.connect.bind(this);
+      this.hold = this.hold.bind(this);
+      this.release = this.release.bind(this);
+      this.sendMessage = this.sendMessage.bind(this);
+
       this.user = React.createRef();
       this.state = {};
     }
@@ -17,6 +24,14 @@ class App extends Component {
     componentDidMount(){
         const socket = io.connect();
         this.setState({socket: socket});
+    }
+
+    hold(){
+        console.log(`lets hold hands, user ${this.state.socket.id}!`);
+    }
+
+    release(){
+        console.log(`aw ok bye`);
     }
 
     sendMessage(){
@@ -44,7 +59,11 @@ class App extends Component {
 
     render(){
         return(
-            <User ref={this.user} clickEvent={this.connect}/>
+            <div>
+                <User ref={this.user} clickEvent={this.connect}/>
+                <Mailbox />
+                <Hand clickEvent={this.hold} releaseEvent={this.release} />
+            </div>
         );
     }
 }
