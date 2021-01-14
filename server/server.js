@@ -49,9 +49,13 @@ server.listen(process.env.PORT || 3000, (err) => {
     console.log('listening at http://' + host + ':' + port);
 });
 
+const socketCookieParser = require('socket.io-cookie-parser');
+io.use(socketCookieParser());
 io.on('connection', (client) => {
 
     console.log('made socket connection', client.id);
+    let userCookie = client.request.cookies['ssid'];
+    console.log(userCookie);
 
     client.on('joinroom', (data) => {
 
@@ -64,7 +68,8 @@ io.on('connection', (client) => {
         for (let i = 0; i < activeRooms.length; i++){
 
           if (activeRooms[i].room.occupants < 2){
-            activeRooms[i].room.addUser(data);
+
+            activeRooms[i].room.addUser(data, userCookie);
 
             console.log(`user ${data} is joining room ${activeRooms[i].room.name}`)
             client.join(activeRooms[i].room.name);
@@ -83,7 +88,7 @@ io.on('connection', (client) => {
 
     const makeNewRoom = (data) =>{
       let newRoom = new Room(data);
-      newRoom.addUser(data);
+      newRoom.addUser(data, userCookie);
       activeRooms.push({id: data, room: newRoom});
 
       console.log(`user ${data} is joining room ${data}`)

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Cookies from 'js-cookie';
+import React, { Component }  from 'react';
+import publicIp from "public-ip";
 
 class Postcard extends Component {
 
@@ -12,20 +12,23 @@ class Postcard extends Component {
         this.findCountry = this.findCountry.bind(this);
         this.getDate = this.getDate.bind(this);
 
-        this.state = {recipient: '', message: ''};
+        this.state = {recipient: '', country: '', message: ''};
     }
 
     handleChange(event) {
         this.setState({...this.state, message: event.target.value});
     }
 
-    findSSID(){
-        console.log(Cookies.get('ssid'));
-        return Cookies.get('ssid');
+    findSSID(ssid){
+        console.log(`partners ssid is ${ssid}`);
+        this.setState({...this.state, recipient: ssid});
     }
 
     findCountry(){
-        return 'America';
+        fetch('https://extreme-ip-lookup.com/json/')
+            .then(res => res.json())
+            .then(data => this.setState({...this.state, country: data.country}))
+            .catch(err => console.log('Request failed:', err));
     }
 
     getDate(){
@@ -36,26 +39,19 @@ class Postcard extends Component {
     }
 
     sendMessage(){
-        
+
         const body = {
-            sessionID: this.findSSID(),
+            sessionID: this.state.recipient,
             message: this.state.message,
-            location: this.findCountry(),
+            location: this.state.country,
             date: this.getDate(),
           };
 
-        fetch('/msg/send', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON'
-            },
-            body: JSON.stringify(body)
-            })
+        fetch('/msg/send', {method: 'POST', headers: {'Content-Type': 'Application/JSON'}, body: JSON.stringify(body)})
             .then(resp => resp.json())
-            .then(data => {
-              console.log(data);
-            })
             .catch(err => console.log('newMessage fetch /msg/send: ERROR: ', err));
+
+        // this.props.resetParent();
     }
 
     render(){

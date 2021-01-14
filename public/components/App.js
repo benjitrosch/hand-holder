@@ -15,15 +15,20 @@ class App extends Component {
         this.connect = this.connect.bind(this);
         this.hold = this.hold.bind(this);
         this.release = this.release.bind(this);
+        this.exit = this.exit.bind(this);
+
+        this.user = React.createRef();
+        this.postcard = React.createRef();
 
         socket = io.connect();
         socket.on('success', (data) => {
             console.log(data)
             this.setState({...this.state, pair: data, connected: true});
-        });
 
-        this.user = React.createRef();
-        this.postcard = React.createRef();
+            let partner = this.state.pair.findIndex(partner => partner.name !== this.state.socket.id);
+            this.postcard.current.findSSID(this.state.pair[partner].ssid);
+            this.postcard.current.findCountry();
+        });
 
         this.state = {pair: [], connected: false, socket: socket};
     }
@@ -43,14 +48,20 @@ class App extends Component {
         if (this.state.pair.length == 2)
             return;
 
-        //console.log(`aw ok bye`);
-        //socket.emit('leaveroom', this.state.socket.id);
-        //this.setState({...state, pair: [], connected: false});
+        // console.log(`aw ok bye`);
+        // socket.emit('leaveroom', this.state.socket.id);
+        // this.setState({...state, pair: [], connected: false});
+    }
+
+    exit(){
+        console.log(`aw ok bye but thanks for the kind messages!`);
+        socket.emit('leaveroom', this.state.socket.id);
+        this.setState({...this.state, pair: [], connected: false});
     }
 
     render(){
 
-        const postcard = this.state.connected ? <Postcard ref={this.postcard} /> : <div>no postcard</div>;
+        const postcard = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <div>no postcard</div>;
 
         return(
             <div>
