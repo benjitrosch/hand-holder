@@ -5,3 +5,4 @@ import App from './components/App';
 import './scss/styles.scss';
 
 ReactDOM.render(<App />, document.getElementById('root'));
+  
