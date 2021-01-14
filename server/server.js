@@ -64,11 +64,14 @@ io.on('connection', (client) => {
         for (let i = 0; i < activeRooms.length; i++){
 
           if (activeRooms[i].room.occupants < 2){
-            activeRooms[i].room.addUser();
+            activeRooms[i].room.addUser(data);
 
             console.log(`user ${data} is joining room ${activeRooms[i].room.name}`)
             client.join(activeRooms[i].room.name);
-            break;
+
+            success(activeRooms[i].room.users);
+
+            return;
           }
 
         }
@@ -80,11 +83,15 @@ io.on('connection', (client) => {
 
     const makeNewRoom = (data) =>{
       let newRoom = new Room(data);
-      newRoom.addUser();
+      newRoom.addUser(data);
       activeRooms.push({id: data, room: newRoom});
 
       console.log(`user ${data} is joining room ${data}`)
       client.join(data);
+    }
+
+    const success = (data) => {
+      io.sockets.emit("success", data);
     }
 
     client.on('leaveroom', (data) => {
@@ -92,10 +99,14 @@ io.on('connection', (client) => {
       client.leave(data);
 
       let prevRoom = activeRooms.find(room => room.id === data).room;
-      prevRoom.removeUser();
 
-      if(prevRoom.occupants === 0)
+      console.log(`user ${data} is now leaving room ${prevRoom}`);
+      prevRoom.removeUser(data);
+
+      if(prevRoom.occupants === 0){
+        console.log(`nobody left in room ${prevRoom}, now being purged`);
         activeRooms.splice(activeRooms.findIndex((room)=>room.id === data), 1);
+      }
 
     });
 

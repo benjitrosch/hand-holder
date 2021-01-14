@@ -4,6 +4,7 @@ import Mailbox from './Mailbox.js';
 import Hand from './Hand.js';
 
 let socket;
+let paired = false;
 
 class App extends Component {
     constructor(props) {
@@ -31,9 +32,18 @@ class App extends Component {
     hold(){
         console.log(`lets hold hands, user ${this.state.socket.id}!`);
         socket.emit('joinroom', this.state.socket.id);
+
+        socket.on('success', function(data){
+            console.log(data)
+            paired = true;
+        });
     }
 
     release(){
+
+        if (paired)
+            return;
+
         console.log(`aw ok bye`);
         socket.emit('leaveroom', this.state.socket.id);
     }

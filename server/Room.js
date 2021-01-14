@@ -2,14 +2,17 @@ class Room {
     constructor(name){
         this.name = name;
         this.occupants = 0;
+        this.users = [];
     }
 
-    addUser(){
+    addUser(user){
         this.occupants++;
+        this.users.push(user);
     }
 
-    removeUser(){
+    removeUser(user){
         this.occupants--;
+        this.users.splice(this.users.indexOf(user), 1);
     }
 
 }
