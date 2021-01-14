@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Message from './Message.js';
+import LetterIcon from '../assets/mail.svg';
 
 class Mailbox extends Component {
 
@@ -30,8 +31,7 @@ class Mailbox extends Component {
 
         return (
             <div>
-                <button onClick={this.props.clickEvent} >Click to get SSID</button>
-                <button onClick={this.getMessages} >Click to get messages for this SSID!</button>
+                <img src={LetterIcon} style={{height:'200px', width: '500px'}} onClick={this.props.clickEvent} />
                 Messages go here: <br/>
                 {messages}
                 For user:

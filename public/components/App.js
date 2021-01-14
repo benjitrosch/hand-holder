@@ -18,6 +18,7 @@ class App extends Component {
 
         this.user = React.createRef();
         this.postcard = React.createRef();
+        this.mailbox = React.createRef();
 
         socket = io.connect();
 
@@ -33,6 +34,7 @@ class App extends Component {
         socket.on('sentSSID', (data) => {
             console.log(data)
             this.setState({...this.state, ssid: data});
+            this.mailbox.current.getMessages();
         });
 
         this.state = {pair: [], connected: false, socket: socket, ssid: ''};
@@ -74,8 +76,8 @@ class App extends Component {
 
         return(
             <div>
-                <User ref={this.user} clickEvent={this.connect}/>
-                <Mailbox ssid={this.state.ssid} clickEvent={this.getSSID} />
+                {/* <User ref={this.user} clickEvent={this.connect}/> */}
+                <Mailbox ref={this.mailbox} ssid={this.state.ssid} clickEvent={this.getSSID} />
                 {component}
             </div>
         );

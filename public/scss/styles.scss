@@ -7,3 +7,29 @@ body{
     color: $lightBlue;
     font-size: 36px;
 }
+
+img{
+    background-color: white;
+    width: 150;
+    height: 150;
+    transition: all .25s;
+
+    &:hover{
+        background-color: darken(white, 25%);
+        width: 100;
+        height: 100;
+    }
+}
+
+button{
+    background-color: white;
+    width: 150;
+    height: 150;
+    transition: all .25s;
+
+    &:hover{
+        background-color: darken(white, 25%);
+        width: 100;
+        height: 100;
+    }
+}
