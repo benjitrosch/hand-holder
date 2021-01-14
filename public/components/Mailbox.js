@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Message from './Message.js';
+import MessageContainer from './MessageContainer.js';
 import LetterIcon from '../assets/mail.svg';
 
 class Mailbox extends Component {
@@ -7,7 +7,7 @@ class Mailbox extends Component {
     constructor(props) {
         super(props);
         this.getMessages = this.getMessages.bind(this);
-        this.state = {messages: []};
+        this.state = {messages: [], fetched: false};
     }
 
     getMessages(){
@@ -16,29 +16,24 @@ class Mailbox extends Component {
             .then((messages) => {
                 if (!Array.isArray(messages)) messages = [];
                 console.log(messages);
-                return this.setState({messages});
+                return this.setState({messages, fetched: true});
             })
             .catch(err => console.log('getMessages GET /msg/read: ERROR: ', err));
     }
 
     render(){
 
-        const messages = [];
-
-        for (let i = 0; i < this.state.messages.length; i++){
-            messages.push(<Message id={`message#${i}`} key={`message#${i}`} data={this.state.messages[i]} />);
-        }
+        const messageComponent = this.state.fetched ? <MessageContainer messages={this.state.messages} /> : <button><img src={LetterIcon} style={{height:'100px'}} onClick={this.props.clickEvent} /></button>;
 
         return (
-            <div>
-                <img src={LetterIcon} style={{height:'200px', width: '500px'}} onClick={this.props.clickEvent} />
-                Messages go here: <br/>
-                {messages}
-                For user:
-                {this.props.ssid}
-            </div>
+            {messageComponent}
         );
     }
 }
   
 export default Mailbox;
+
+/*Messages go here: <br/>
+{messages}
+For user:
+{this.props.ssid}*/

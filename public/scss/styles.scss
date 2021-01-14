@@ -1,35 +1,93 @@
-@import "variables";
+@import "palette";
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 
-body{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: $lightBlue;
+*{
     font-size: 36px;
+    font-family: 'Abel', sans-serif;
 }
 
-img{
-    background-color: white;
-    width: 150;
-    height: 150;
-    transition: all .25s;
+body{
+    overflow-y: hidden;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    animation: bgCycle 30s linear infinite;
+    transition: all 1s ease;
+}
 
-    &:hover{
-        background-color: darken(white, 25%);
-        width: 100;
-        height: 100;
-    }
+@keyframes bgCycle {
+    0%, 100% {background-color: $persian-blue;}
+    50% {background-color: $purple;}
 }
 
 button{
-    background-color: white;
-    width: 150;
-    height: 150;
-    transition: all .25s;
+
+    background-color: transparent;
+    outline: none;
+    border: none;
+
+    transition: all .25s ease;
+    transform-origin: 50% 50%;
 
     &:hover{
-        background-color: darken(white, 25%);
-        width: 100;
-        height: 100;
+        outline: none;
+        border: none;
+        transform: scale(1.1);
     }
+
+    &:focus {
+        outline: none;
+        border: none;
+    }
+        
+    &:active {
+        outline: none;
+        border: none;
+        transform: scale(.9);
+    }
+
+}
+
+img{
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+}
+
+#mainComponent{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#messageContainer{
+    margin-top: 50vh;
+    float: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.hand{
+}
+
+#mailbox{
+}
+
+.newMessage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Permanent Marker', cursive !important;
+}
+
+.postcard{
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 8px 5px 1px black;
+    z-index: -1;
 }

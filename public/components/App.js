@@ -72,13 +72,15 @@ class App extends Component {
 
     render(){
 
-        const component = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <Hand clickEvent={this.hold} releaseEvent={this.release} />;
+        const component = this.state.connected ? <Postcard ref={this.postcard} className='newMessage' resetParent={this.exit} /> : <Hand clickEvent={this.hold} releaseEvent={this.release} />;
 
         return(
-            <div>
+            <div id='container'>
                 {/* <User ref={this.user} clickEvent={this.connect}/> */}
-                <Mailbox ref={this.mailbox} ssid={this.state.ssid} clickEvent={this.getSSID} />
-                {component}
+                <div id='mainComponent'>
+                    {component}
+                </div>
+                <Mailbox ref={this.mailbox} id='mailbox' ssid={this.state.ssid} clickEvent={this.getSSID} />
             </div>
         );
     }

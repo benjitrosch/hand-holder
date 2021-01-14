@@ -1,5 +1,5 @@
 import React, { Component }  from 'react';
-import publicIp from "public-ip";
+import CardIcon from '../assets/postcard.svg';
 
 class Postcard extends Component {
 
@@ -58,6 +58,7 @@ class Postcard extends Component {
 
         return (
             <div>
+                <img className='postcard' src={CardIcon} />
                 Write a nice message here:
                 <input type="text" value={this.state.message} onChange={this.handleChange} />
                 <button onClick={this.sendMessage}>Click to send message</button>

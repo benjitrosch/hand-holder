@@ -3,7 +3,9 @@ import HandIcon from '../assets/Hand.svg';
 
 const Hand = (props) =>{
     return(
-        <img src={HandIcon} style={{height:'200px', width: '500px'}} onMouseDown={props.clickEvent} onMouseUp={props.releaseEvent} />
+        <button className='hand'>
+            <img src={HandIcon} style={{height:'200px'}} onMouseDown={props.clickEvent} onMouseUp={props.releaseEvent} />
+        </button>
     );
 }
 
