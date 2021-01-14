@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
 import User from './User.js';
 import Mailbox from './Mailbox.js';
+import Postcard from './Postcard.js';
 import Hand from './Hand.js';
 
+// import '../scss/styles.scss';
+
 let socket;
-let paired = false;
 
 class App extends Component {
     constructor(props) {
-      super(props);
+        super(props);
 
-      this.connect = this.connect.bind(this);
-      this.hold = this.hold.bind(this);
-      this.release = this.release.bind(this);
-      this.sendMessage = this.sendMessage.bind(this);
+        this.connect = this.connect.bind(this);
+        this.hold = this.hold.bind(this);
+        this.release = this.release.bind(this);
 
-      this.user = React.createRef();
-      this.state = {};
+        socket = io.connect();
+        socket.on('success', (data) => {
+            console.log(data)
+            this.setState({...this.state, pair: data, connected: true});
+        });
+
+        this.user = React.createRef();
+        this.postcard = React.createRef();
+
+        this.state = {pair: [], connected: false, socket: socket};
     }
 
     connect(){
@@ -24,58 +33,30 @@ class App extends Component {
         this.user.current.updateID(this.state.socket.id);
     }
 
-    componentDidMount(){
-        socket = io.connect();
-        this.setState({socket: socket});
-    }
-
     hold(){
         console.log(`lets hold hands, user ${this.state.socket.id}!`);
         socket.emit('joinroom', this.state.socket.id);
-
-        socket.on('success', function(data){
-            console.log(data)
-            paired = true;
-        });
     }
 
     release(){
 
-        if (paired)
+        if (this.state.pair.length == 2)
             return;
 
-        console.log(`aw ok bye`);
-        socket.emit('leaveroom', this.state.socket.id);
-    }
-
-    sendMessage(){
-
-        const body = {
-            sessionID,
-            message,
-            location,
-            date,
-          };
-
-        fetch('/msg/send', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'Application/JSON'
-            },
-            body: JSON.stringify(body)
-            })
-            .then(resp => resp.json())
-            .then(data => {
-              console.log(data);
-            })
-            .catch(err => console.log('newMessage fetch /msg/send: ERROR: ', err));
+        //console.log(`aw ok bye`);
+        //socket.emit('leaveroom', this.state.socket.id);
+        //this.setState({...state, pair: [], connected: false});
     }
 
     render(){
+
+        const postcard = this.state.connected ? <Postcard ref={this.postcard} /> : <div>no postcard</div>;
+
         return(
             <div>
                 <User ref={this.user} clickEvent={this.connect}/>
                 <Mailbox />
+                {postcard}
                 <Hand clickEvent={this.hold} releaseEvent={this.release} />
             </div>
         );

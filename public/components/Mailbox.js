@@ -12,7 +12,7 @@ class Mailbox extends Component {
         const messages = [];
 
         for (let i = 0; i < this.state.messages.length; i++){
-            messages.push(<Message id={`message#${id}`} key={`message#${id}`} />);
+            messages.push(<Message id={`message#${id}`} key={`message#${id}`} message={`yoooooooooo!`} />);
         }
 
         return (

@@ -69,7 +69,7 @@ io.on('connection', (client) => {
             console.log(`user ${data} is joining room ${activeRooms[i].room.name}`)
             client.join(activeRooms[i].room.name);
 
-            success(activeRooms[i].room.users);
+            success(activeRooms[i].room.name, activeRooms[i].room.users);
 
             return;
           }
@@ -90,8 +90,8 @@ io.on('connection', (client) => {
       client.join(data);
     }
 
-    const success = (data) => {
-      io.sockets.emit("success", data);
+    const success = (roomname, users) => {
+      io.sockets.to(roomname).emit("success", users);
     }
 
     client.on('leaveroom', (data) => {
