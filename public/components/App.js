@@ -4,8 +4,6 @@ import Mailbox from './Mailbox.js';
 import Postcard from './Postcard.js';
 import Hand from './Hand.js';
 
-// import '../scss/styles.scss';
-
 let socket;
 
 class App extends Component {
@@ -16,11 +14,13 @@ class App extends Component {
         this.hold = this.hold.bind(this);
         this.release = this.release.bind(this);
         this.exit = this.exit.bind(this);
+        this.getSSID = this.getSSID.bind(this);
 
         this.user = React.createRef();
         this.postcard = React.createRef();
 
         socket = io.connect();
+
         socket.on('success', (data) => {
             console.log(data)
             this.setState({...this.state, pair: data, connected: true});
@@ -30,7 +30,12 @@ class App extends Component {
             this.postcard.current.findCountry();
         });
 
-        this.state = {pair: [], connected: false, socket: socket};
+        socket.on('sentSSID', (data) => {
+            console.log(data)
+            this.setState({...this.state, ssid: data});
+        });
+
+        this.state = {pair: [], connected: false, socket: socket, ssid: ''};
     }
 
     connect(){
@@ -43,14 +48,18 @@ class App extends Component {
         socket.emit('joinroom', this.state.socket.id);
     }
 
+    getSSID(){
+        socket.emit('getSSID');
+    }
+
     release(){
 
-        if (this.state.pair.length == 2)
+        if (this.connected)
             return;
 
-        // console.log(`aw ok bye`);
-        // socket.emit('leaveroom', this.state.socket.id);
-        // this.setState({...state, pair: [], connected: false});
+        console.log(`aw ok bye`);
+        socket.emit('leaveroom', this.state.socket.id);
+        this.setState({...this.state, pair: [], connected: false});
     }
 
     exit(){
@@ -61,14 +70,13 @@ class App extends Component {
 
     render(){
 
-        const postcard = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <div>no postcard</div>;
+        const component = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <Hand clickEvent={this.hold} releaseEvent={this.release} />;
 
         return(
             <div>
                 <User ref={this.user} clickEvent={this.connect}/>
-                <Mailbox />
-                {postcard}
-                <Hand clickEvent={this.hold} releaseEvent={this.release} />
+                <Mailbox ssid={this.state.ssid} clickEvent={this.getSSID} />
+                {component}
             </div>
         );
     }

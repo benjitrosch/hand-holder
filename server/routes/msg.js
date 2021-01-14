@@ -4,8 +4,8 @@ const msgController = require('../controllers/msgController');
 
 const router = express.Router();
 
-router.get('/', msgController.getMessages, (req, res) => {
-    res.status(200).json(res.locals.newMessages)
+router.get('/read', msgController.getMessages, (req, res) => {
+    res.status(200).json([...res.locals.newMessages]);
     console.log(res.locals.newMessages);
 });
 

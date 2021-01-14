@@ -105,14 +105,18 @@ io.on('connection', (client) => {
 
       let prevRoom = activeRooms.find(room => room.id === data).room;
 
-      console.log(`user ${data} is now leaving room ${prevRoom}`);
+      console.log(`user ${data} is now leaving room ${prevRoom.name}`);
       prevRoom.removeUser(data);
 
       if(prevRoom.occupants === 0){
-        console.log(`nobody left in room ${prevRoom}, now being purged`);
+        console.log(`nobody left in room ${prevRoom.name}, now being purged`);
         activeRooms.splice(activeRooms.findIndex((room)=>room.id === data), 1);
       }
 
+    });
+
+    client.on('getSSID', () => {
+      client.emit('sentSSID', userCookie);
     });
 
     io.on('disconnect', ()=> console.log('succesfully disconnected'));
