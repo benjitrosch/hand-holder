@@ -2,10 +2,10 @@ import React from 'react';
 
 const Message = (props) => {
     return (
-        <div>Message:
-        {props.data.message}
-        From: {props.data.location}
-        {props.data.date}</div>
+        <div>Message:<br/>
+        {props.data.message}<br/>
+        From: {props.data.location}<br/>
+        {props.data.date}<br/><br/><br/></div>
     );
 }
 

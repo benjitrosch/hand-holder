@@ -15,7 +15,7 @@ class MessageContainer extends Component {
         }
 
         return (
-            {messages}
+            <div className='messageContainer' onClick={this.props.clickEvent}>{messages}</div>
         );
     }
 }

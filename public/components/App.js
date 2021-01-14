@@ -80,7 +80,7 @@ class App extends Component {
                 <div id='mainComponent'>
                     {component}
                 </div>
-                <Mailbox ref={this.mailbox} id='mailbox' ssid={this.state.ssid} clickEvent={this.getSSID} />
+                <Mailbox ref={this.mailbox} ssid={this.state.ssid} clickEvent={this.getSSID} />
             </div>
         );
     }

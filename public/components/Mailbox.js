@@ -6,7 +6,10 @@ class Mailbox extends Component {
 
     constructor(props) {
         super(props);
+
         this.getMessages = this.getMessages.bind(this);
+        this.unfetch = this.unfetch.bind(this);
+
         this.state = {messages: [], fetched: false};
     }
 
@@ -21,12 +24,16 @@ class Mailbox extends Component {
             .catch(err => console.log('getMessages GET /msg/read: ERROR: ', err));
     }
 
+    unfetch(){
+        this.setState({messages: [], fetched: false});
+    }
+
     render(){
 
-        const messageComponent = this.state.fetched ? <MessageContainer messages={this.state.messages} /> : <button><img src={LetterIcon} style={{height:'100px'}} onClick={this.props.clickEvent} /></button>;
+        const messageComponent = this.state.fetched ? <MessageContainer messages={this.state.messages} clickEvent={this.unfetch} /> : <button><img src={LetterIcon} style={{height:'100px'}} onClick={this.props.clickEvent} /></button>;
 
         return (
-            {messageComponent}
+            <div className='mailbox'>{messageComponent}</div>
         );
     }
 }
