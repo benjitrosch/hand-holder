@@ -15,7 +15,9 @@ class MessageContainer extends Component {
         }
 
         return (
-            <div className='container' onClick={this.props.clickEvent}>{messages}</div>
+            <div className='msgcontainer' onClick={this.props.clickEvent}>
+                <div className='msgs'>{messages}</div>
+            </div>
         );
     }
 }

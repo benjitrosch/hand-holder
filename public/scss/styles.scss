@@ -1,4 +1,8 @@
 @import "palette";
+@import "buttons";
+@import "hands";
+@import "navbar";
+@import "mail";
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
 
@@ -8,12 +12,9 @@
 }
 
 body{
-    height: 100vh;
-    width: 100vw;
+    margin: 0;
     overflow-y: hidden;
     overflow-x: hidden;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
     animation: bgCycle 30s linear infinite;
     transition: all 1s ease;
 
@@ -23,37 +24,21 @@ body{
     flex-direction: column;
 }
 
+#root{
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @keyframes bgCycle {
     0%, 100% {background-color: $persian-blue;}
     50% {background-color: $purple;}
-}
-
-button{
-
-    background-color: transparent;
-    outline: none;
-    border: none;
-
-    transition: all .25s ease;
-    transform-origin: 50% 50%;
-
-    &:hover{
-        outline: none;
-        border: none;
-        transform: scale(1.1);
-    }
-
-    &:focus {
-        outline: none;
-        border: none;
-    }
-        
-    &:active {
-        outline: none;
-        border: none;
-        transform: scale(.9);
-    }
-
 }
 
 img{
@@ -65,36 +50,25 @@ img{
     -webkit-touch-callout: none;
 }
 
-.container{
-    // width: 100%;
-    // height: 100%;
-}
-
-#mainComponent{
-}
-
-.messageContainer{
-    // width: 75%;
-    // height: 75%;
-    // box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.25);
-    // z-index: 10;
-}
-
-.hand{
-}
-
-.mailbox{
-}
-
-.newMessage{
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-    font-family: 'Permanent Marker', cursive !important;
-}
-
 .postcard{
-    position: fixed;
-    box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.25);
-    z-index: -1;
+
+    margin-top: 25vh;
+    padding: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    img{
+        position: fixed;
+        box-shadow: 2px 5px 10px 0px rgba(0, 0, 0, 0.25);
+        z-index: -1;
+    }
 }
+
+@media only screen and (max-width: 700px) {
+    * {
+      font-size: 16px;
+    }
+  }

@@ -48,19 +48,17 @@ class Postcard extends Component {
           };
 
         fetch('/msg/send', {method: 'POST', headers: {'Content-Type': 'Application/JSON'}, body: JSON.stringify(body)})
-            .then(resp => resp.json())
-            .catch(err => console.log('newMessage fetch /msg/send: ERROR: ', err));
-
-        // this.props.resetParent();
+            .then(() => this.props.resetParent())
+            .catch(err => console.log(`Error sending message to db: ${err}`));
     }
 
     render(){
 
         return (
-            <div>
-                <img className='postcard' src={CardIcon} />
-                Write a nice message here:
-                <input type="text" value={this.state.message} onChange={this.handleChange} />
+            <div className='postcard'>
+                <img src={CardIcon} />
+                Write a nice message here:<br/><br/>
+                <input type="text" value={this.state.message} onChange={this.handleChange} maxLength="25" /><br/>
                 <button onClick={this.sendMessage}>Click to send message</button>
             </div>
         );

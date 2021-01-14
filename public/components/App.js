@@ -3,6 +3,7 @@ import User from './User.js';
 import Mailbox from './Mailbox.js';
 import Postcard from './Postcard.js';
 import Hand from './Hand.js';
+import Navbar from './Navbar.js';
 
 let socket;
 
@@ -24,7 +25,7 @@ class App extends Component {
 
         socket.on('success', (data) => {
             console.log(data)
-            this.setState({...this.state, pair: data, connected: true});
+            this.setState({...this.state, pair: data, searching: false, connected: true});
 
             let partner = this.state.pair.findIndex(partner => partner.name !== this.state.socket.id);
             this.postcard.current.findSSID(this.state.pair[partner].ssid);
@@ -37,7 +38,7 @@ class App extends Component {
             this.mailbox.current.getMessages();
         });
 
-        this.state = {pair: [], connected: false, socket: socket, ssid: ''};
+        this.state = {pair: [], searching: false, connected: false, socket: socket, ssid: ''};
     }
 
     connect(){
@@ -48,6 +49,7 @@ class App extends Component {
     hold(){
         console.log(`lets hold hands, user ${this.state.socket.id}!`);
         socket.emit('joinroom', this.state.socket.id);
+        this.setState({...this.state, searching: true});
     }
 
     getSSID(){
@@ -61,7 +63,7 @@ class App extends Component {
 
         console.log(`aw ok bye`);
         socket.emit('leaveroom', this.state.socket.id);
-        this.setState({...this.state, pair: [], connected: false});
+        this.setState({...this.state, pair: [], searching: false, connected: false});
     }
 
     exit(){
@@ -72,14 +74,13 @@ class App extends Component {
 
     render(){
 
-        const component = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <Hand clickEvent={this.hold} releaseEvent={this.release} />;
+        const component = this.state.connected ? <Postcard ref={this.postcard} resetParent={this.exit} /> : <Hand clickEvent={this.hold} releaseEvent={this.release} searching={this.state.searching} />;
 
         return(
             <div className='container'>
+                {/*<Navbar />*/}
                 {/* <User ref={this.user} clickEvent={this.connect}/> */}
-                <div className='container'>
-                    {component}
-                </div>
+                {component}
                 <Mailbox ref={this.mailbox} ssid={this.state.ssid} clickEvent={this.getSSID} />
             </div>
         );

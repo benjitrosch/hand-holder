@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MessageContainer from './MessageContainer.js';
 import LetterIcon from '../assets/mail.svg';
+import MailboxIcon from './MailboxIcon.js';
 
 class Mailbox extends Component {
 
@@ -19,7 +20,9 @@ class Mailbox extends Component {
             .then((messages) => {
                 if (!Array.isArray(messages)) messages = [];
                 console.log(messages);
-                return this.setState({messages, fetched: true});
+                if(messages.length > 0)
+                    return this.setState({messages, fetched: true});
+                else return;
             })
             .catch(err => console.log('getMessages GET /msg/read: ERROR: ', err));
     }
@@ -30,7 +33,7 @@ class Mailbox extends Component {
 
     render(){
 
-        const messageComponent = this.state.fetched ? <MessageContainer messages={this.state.messages} clickEvent={this.unfetch} /> : <button><img src={LetterIcon} style={{height:'100px'}} onClick={this.props.clickEvent} /></button>;
+        const messageComponent = this.state.fetched ? <MessageContainer messages={this.state.messages} clickEvent={this.unfetch} /> : <MailboxIcon onClick={this.props.clickEvent} />;
 
         return (
             <div className='mailbox'>{messageComponent}</div>

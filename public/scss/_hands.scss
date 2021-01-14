@@ -1,0 +1,121 @@
+.handBtn{
+
+    transform: scale(.4);
+    transform-origin: top;
+
+    &:hover{
+        outline: none;
+        border: none;
+        transform: scale(.45);
+        filter: blur(1px);
+    }
+        
+    &:active {
+        outline: none;
+        border: none;
+        transform: scale(.35);
+        filter: blur(0px);
+    }
+}
+
+.svg{
+  fill: transparent;
+}
+
+.outline{
+  animation: outlineCycle 30s linear infinite;
+  transition: all 1s ease;
+}
+
+@keyframes outlineCycle {
+  0%, 100% {fill: $purple-2;}
+  50% {fill: $byzantine;}
+}
+
+.shadow{
+
+    &:hover{
+        fill: white;
+    }
+        
+    &:active {
+        fill: transparent;
+    }
+}
+
+.hand{
+    z-index: 10;
+
+    &:active{
+        & + .rhand{
+            // opacity: 100%;
+            background-color:red;
+        }
+    }
+}
+
+.handShadow{
+    position: absolute;
+    left: 0vw;
+    top: 0vh;
+    z-index: -10;
+    filter: blur(10px);
+    opacity: 0.15;
+}
+
+.pulsating-circle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 500px;
+    height: 500px;
+    z-index: -15;
+    
+    &:before {
+      content: '';
+      position: relative;
+      display: block;
+      width: 300%;
+      height: 300%;
+      box-sizing: border-box;
+      margin-left: -100%;
+      margin-top: -100%;
+      border-radius: 1000px;
+      background-color: #01a4e9;
+      animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+  }
+  
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(.33);
+    }
+    80%, 100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes pulse-dot {
+    0% {
+      transform: scale(.8);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(.8);
+    }
+}
+
+h1{
+  font-size: 72px;
+  color: white;
+  opacity: 0;
+  animation: fade 2.5s ease-in-out infinite;
+}
+
+@keyframes fade {
+  0%, 100%   { opacity:0; }
+  50%  { opacity:1; }
+}

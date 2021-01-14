@@ -1,0 +1,22 @@
+.navbar {
+    overflow: hidden;
+    background: linear-gradient(to right, $purple-2, transparent 50%);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 25;
+  }
+  
+  .navbar a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 8px 8px;
+    text-decoration: none;
+  }
+  
+  .navbar a:hover {
+    background: $trypan-blue;
+    color: darken(#f2f2f2, 15%);
+  }

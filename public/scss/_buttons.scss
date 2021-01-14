@@ -1,0 +1,27 @@
+button{
+
+    background-color: transparent;
+    outline: none;
+    border: none;
+
+    transition: all .25s ease;
+    transform-origin: 50% 50%;
+
+    &:hover{
+        outline: none;
+        border: none;
+        transform: scale(1.1);
+    }
+
+    &:focus {
+        outline: none;
+        border: none;
+    }
+        
+    &:active {
+        outline: none;
+        border: none;
+        transform: scale(.9);
+    }
+
+}
