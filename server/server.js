@@ -37,6 +37,9 @@ app.use((err, req, res, next) => {
 const server= require('http').Server(app);
 const io = require('socket.io')(server);
 
+const Room = require('./Room.js');
+const activeRooms = [];
+
 server.listen(process.env.PORT || 3000, (err) => {
     if (err) throw err
 
@@ -47,6 +50,55 @@ server.listen(process.env.PORT || 3000, (err) => {
 });
 
 io.on('connection', (client) => {
+
     console.log('made socket connection', client.id);
+
+    client.on('joinroom', (data) => {
+
+      if (activeRooms.length == 0){
+
+        makeNewRoom(data);
+
+      } else {
+        
+        for (let i = 0; i < activeRooms.length; i++){
+
+          if (activeRooms[i].room.occupants < 2){
+            activeRooms[i].room.addUser();
+
+            console.log(`user ${data} is joining room ${activeRooms[i].room.name}`)
+            client.join(activeRooms[i].room.name);
+            break;
+          }
+
+        }
+
+        makeNewRoom(data);
+
+      }
+    });
+
+    const makeNewRoom = (data) =>{
+      let newRoom = new Room(data);
+      newRoom.addUser();
+      activeRooms.push({id: data, room: newRoom});
+
+      console.log(`user ${data} is joining room ${data}`)
+      client.join(data);
+    }
+
+    client.on('leaveroom', (data) => {
+
+      client.leave(data);
+
+      let prevRoom = activeRooms.find(room => room.id === data).room;
+      prevRoom.removeUser();
+
+      if(prevRoom.occupants === 0)
+        activeRooms.splice(activeRooms.findIndex((room)=>room.id === data), 1);
+
+    });
+
     io.on('disconnect', ()=> console.log('succesfully disconnected'));
+
 });
