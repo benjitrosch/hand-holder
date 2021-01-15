@@ -2,7 +2,7 @@ import React from 'react';
 
 const Tagline = (props) => {
     return (
-        <div class="tagline">
+        <div className="tagline">
             <h4>You're in good hands.</h4>
         </div>
     );
