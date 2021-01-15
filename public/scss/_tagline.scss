@@ -1,0 +1,19 @@
+.tagline {
+  overflow: hidden;
+  background: linear-gradient(to left, $dodger-blue, transparent 50%);
+  position: fixed;
+  overflow: hidden;
+  bottom: 0;
+  width: 100%;
+  z-index: 25;
+  transition: all .25s ease;
+
+  h4{
+    float: right;
+    display: block;
+    text-align: right;
+    color: white;
+    padding: 8px 32px;
+  }
+
+}

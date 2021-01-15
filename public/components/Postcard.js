@@ -45,11 +45,12 @@ class Postcard extends Component {
             message: this.state.message,
             location: this.state.country,
             date: this.getDate(),
-          };
+        };
 
         fetch('/msg/send', {method: 'POST', headers: {'Content-Type': 'Application/JSON'}, body: JSON.stringify(body)})
-            .then(() => this.props.resetParent())
             .catch(err => console.log(`Error sending message to db: ${err}`));
+
+        // setTimeout(()=>this.props.resetParent(), 500);
     }
 
     render(){
@@ -59,7 +60,7 @@ class Postcard extends Component {
                 <img src={CardIcon} />
                 Write a nice message here:<br/><br/>
                 <input type="text" value={this.state.message} onChange={this.handleChange} maxLength="25" /><br/>
-                <button onClick={this.sendMessage}>Click to send message</button>
+                <button className='submit' onClick={this.sendMessage}>Click to send message</button>
             </div>
         );
     }

@@ -25,3 +25,33 @@ button{
     }
 
 }
+
+.submit{
+    background-color: white;
+    outline: none;
+    border: none;
+
+    transition: all .25s ease;
+    transform-origin: center;
+    transform: scale(1);
+
+    &:hover{
+        outline: none;
+        border: none;
+        color: lighten(black, 50%);
+        transform: scale(1);
+    }
+
+    &:focus {
+        outline: none;
+        border: none;
+        transform: scale(1);
+    }
+        
+    &:active {
+        outline: none;
+        border: none;
+        background-color: darken(white, 15%);
+        transform: scale(1);
+    }
+}

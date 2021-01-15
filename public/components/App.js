@@ -4,6 +4,8 @@ import Mailbox from './Mailbox.js';
 import Postcard from './Postcard.js';
 import Hand from './Hand.js';
 import Navbar from './Navbar.js';
+import Tagline from './Tagline.js';
+import Particles from 'react-particles-js';
 
 let socket;
 
@@ -78,10 +80,12 @@ class App extends Component {
 
         return(
             <div className='container'>
-                {/*<Navbar />*/}
+                <Navbar />
                 {/* <User ref={this.user} clickEvent={this.connect}/> */}
                 {component}
                 <Mailbox ref={this.mailbox} ssid={this.state.ssid} clickEvent={this.getSSID} />
+                <Particles className='particles' />
+                <Tagline />
             </div>
         );
     }

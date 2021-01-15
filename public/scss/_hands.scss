@@ -23,12 +23,13 @@
 }
 
 .outline{
-  animation: outlineCycle 30s linear infinite;
+  fill: $vivid-sky-blue;
+  // animation: outlineCycle 15s ease infinite;
   transition: all 1s ease;
 }
 
 @keyframes outlineCycle {
-  0%, 100% {fill: $purple-2;}
+  0%, 100% {fill: $vivid-sky-blue;}
   50% {fill: $byzantine;}
 }
 
